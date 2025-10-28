@@ -1,8 +1,15 @@
+# omit environment files
 .env
 .env.local
 
+# omit virtual environments
 venv/
 .venv/
 
+# omit cache
 __pycache__/
 *.pyc
+
+# omit results in version control, should be created individually per evaluator
+results/
+./results/*

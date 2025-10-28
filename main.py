@@ -4,11 +4,11 @@ import sys
 import traceback
 from pdf_utils import extract_text_from_pdf, tokenize_text
 from llm_service import generate_summary, generate_flashcards, generate_quiz
+from file_utils import save_result_as_text  # 👈 import the save helper
 
 def main():
-
     # i-modify lang ang path sa material na gusto ninyo ipaslak diri, example kaning IAS notes lugar
-    pdf_path = "./materials/IAS Notes.pdf"
+    pdf_path = "./materials/ELECTIVE4_REVIEWER.pdf"
 
     # Text extraction and tokenization
     try:
@@ -36,7 +36,8 @@ def main():
     try:
         print("Generating summary from document...")
         results['summary'] = generate_summary(text)
-        print("Successfully generated!\n")
+        save_result_as_text(results['summary'], 'summary', pdf_path)  # save summary result
+        print("Successfully generated and saved at results!\n")
     except Exception as e:
         print("An error occurred during summary generation:")
         traceback.print_exc()
@@ -46,7 +47,8 @@ def main():
     try:
         print("Generating flashcards from document...")
         results['flashcards'] = generate_flashcards(text)
-        print("Successfully generated!\n")
+        save_result_as_text(results['flashcards'], 'flashcards', pdf_path)  # save flashcards result
+        print("Successfully generated and saved at results!\n")
     except Exception as e:
         print("An error occurred during flashcard generation:")
         traceback.print_exc()
@@ -56,17 +58,18 @@ def main():
     try:
         print("Generating quiz from document...")
         results['quiz'] = generate_quiz(text)
-        print("Successfully generated!\n")
+        save_result_as_text(results['quiz'], 'quiz', pdf_path)  # save quiz result
+        print("Successfully generated and saved at results!\n")
     except Exception as e:
         print("An error occurred during quiz generation:")
         traceback.print_exc()
         results['quiz'] = {"error": str(e)}
 
     # Output results
-    print("\n=== RESULTS ===")
-    for key, value in results.items():
-        print(f"\n--- {key.upper()} ---")
-        print(value)
+    # print("\n=== RESULTS ===")
+    # for key, value in results.items():
+    #     print(f"\n--- {key.upper()} ---")
+    #     print(value)
 
 
 if __name__ == "__main__":
